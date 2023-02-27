@@ -20,7 +20,7 @@ The script _Analysis_script_ is used to analyse the data. The script is divided 
 4. Step 4: Analyses
 
 
-Step 1: In the first step, I load required packages and I set my environment. Moreover, I read in the data, which I downloaded via https://anne-urai.github.io/lab_wiki/IBLdata_behav.html. 
+Step 1: In the first step, I load required packages and I set my environment. Moreover, I read in the data, which I downloaded via https://anne-urai.github.io/lab_wiki/IBLdata_behav.html. After downloading the data, I saved the data frames in excel files, so that I did not have to make a connection to the database each time I would work on the project. My script to download the data can be found in xxx. 
 
 Step 2: In the second step, I manipulated the data and created variables used for the analyses. 
 
