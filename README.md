@@ -3,7 +3,7 @@
 For my thesis I studied the differences in learning speed across laboratories and between individual mice in the decision-making task of the International Brain Laboratory et al. (2021). More specifically, I investigated the role of the light cycle used during the experiments and training time consistency of the mice on learning speed. My supervisor Dr. A.E. Urai (Cognitive Neuroscience, Leiden University) has guided me through the project. 
 
 
-The International Brain Laboratory. (2021). Standardized and reproducible measurement of 	decision-making inmice. eLife, (10), 1-28. (https://doi.org/10.7554/eLife.84310. 
+The International Brain Laboratory. (2021). Standardized and reproducible measurement of 	decision-making inmice. eLife, (10), 1-28. https://doi.org/10.7554/eLife.84310. 
 
 
 My contact information: felicewulfse@gmail.com
