@@ -34,17 +34,19 @@ Step 4: At last, I performed data analysis using Kruskall-Wallis tests, t-tests 
 
 # Variables used for the analysis
 
-Learning speed:
-	1. Learning speed 1 =  (performance_last-performance_first)/(num_sessions)
-	2. Learning speed 2 =  (performance_max-performance_min)/(num_sessions)
-	3. Sessions to trained = num_sessions until the subject is trained
-	4. Sessions to eighty = num_sessions until 80% of performance is reached
+Light cycle (1 categorical variable): 
+- Non-inverted light cycle / Inverted light cycle 
 
-Light cycle: Non-inverted light cycle / Inverted light cycle 
+Learning speed (four continuous variables):
+- Learning speed 1 =  (performance_last-performance_first)/(num_sessions)
+- Learning speed 2 =  (performance_max-performance_min)/(num_sessions)
+- Sessions to trained = num_sessions until the subject is trained
+- Sessions to eighty = num_sessions until 80% of performance is reached
 
-Training time consistency:
-  1. Time consistency 1:  (occurences of training on preferred time)/(num_sessions)
-	2. Time consistency 2: standard deviation of time distributions
+
+Training time consistency (two continuous variables):
+- Time consistency 1:  (occurences of training on preferred time)/(num_sessions)
+- Time consistency 2: standard deviation of time distributions
 
 
 
