@@ -14,7 +14,7 @@ For more information about the International Brain Laboratory: a.e.urai@fsw.leid
 
 # Explaining differences in learning speed in the decision-making task of the International Brain laboratory by light cycle and training time consistency
 
-The script Download_data was used to download the data. It follows the steps from https://anne-urai.github.io/lab_wiki/IBLdata_behav.html to download the data. I have included it for transparancy. 
+The script _Download_data_ was used to download the data. It follows the steps from https://anne-urai.github.io/lab_wiki/IBLdata_behav.html to download the data. I have included it for transparancy. 
 
 The script _Analysis_script_ is used to analyse the data. The script is divided in four parts:
 1. Step 1: Set up 
