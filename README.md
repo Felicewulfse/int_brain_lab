@@ -32,6 +32,22 @@ Step 3: As third, I created the plots used to explain the data.
 Step 4: At last, I performed data analysis using Kruskall-Wallis tests, t-tests and mixture analyses. 
 
 
+# Variables used for the analysis
+
+Learning speed:
+	1. Learning speed 1 =  (performance_last-performance_first)/(num_sessions)
+	2. Learning speed 2 =  (performance_max-performance_min)/(num_sessions)
+	3. Sessions to trained = num_sessions until the subject is trained
+	4. Sessions to eighty = num_sessions until 80% of performance is reached
+
+Light cycle: Non-inverted light cycle / Inverted light cycle 
+
+Training time consistency:
+  1. Time consistency 1:  (occurences of training on preferred time)/(num_sessions)
+	2. Time consistency 2: standard deviation of time distributions
+
+
+
 # The Decision making task of the International Brain Laboratory et al. (2021)
 All mice underwent surgery in which a head bar was attached for head-fixation. After surgery, the subjects had a recovery phase. When recovery was over, the mice were set on water control (Urai et al., 2021) and they got habituated to the experiment environment. They started learning the basic task, in which they had to move a wheel to shift the stimulus (a gabor patch presented on either the left or the right side of the screen) to the centre. In the basic task the probability of the stimulus appearing on the left or on the right was equal (0.5/0.5). When they were trained on the basic task, they learned the full task in which the probability of the stimulus appearing on the left or the right switched between 0.2/0.8 and 0.8/0.2. In both the basic and the full task, the contrast changes ranging from -100% to 100% over the trials. Less contrast makes the task more difficult, as it is less visible. Session duration was not fixed but determined by the experimenter. It depended on the performance, but was always stopped after 90 minutes. There were large differences in the number of trials per sessions. Therefore, some mice could have had more trials per session and learn the basic task in fewer sessions (The International Brain Laboratory et al., 2021).
 
