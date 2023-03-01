@@ -352,6 +352,7 @@ light_palette = {"NIV": "gold", "IV": "steelblue"}
 
 # FIGURE 1: Performance of example mice 2 
 sns.set_theme(style = 'darkgrid')
+sns.set_palette('colorblind')
 example_mouse_2 = df_sessions_complete.loc[df_sessions_complete['example_mouse'] == 2]
 fig_1 = sns.lineplot(data = example_mouse_2, x = "session_number", y = 'Percentage correct')
 fig_1.set(xlabel = 'Session number', ylabel = 'Percentage correct', title ='Performance of Example mouse 2')
@@ -392,18 +393,22 @@ plt.savefig('fig_3d.jpg', dpi = 1500, bbox_inches = 'tight')
 
 
 # FIGURE 4: Training time distribution of Example mouse 3
+sns.set_theme(style = 'darkgrid')
+sns.set_palette('colorblind')
 df_sessions_example_mouse_3 = df_sessions_example_mice.loc[(df_sessions_example_mice['example_mouse'] == 3)] 
-fig_4 = sns.displot(df_sessions_example_mouse_3, x = 'session_time_hour', kind = 'hist', bins = 10, alpha = 0.6, palette = 'colorblind')
+fig_4 = sns.displot(df_sessions_example_mouse_3, x = 'session_time_hour', kind = 'hist', bins = 10, alpha = 0.7)
 fig_4.set(xlim = (9, 18))
 fig_4.set(xlabel = 'Session start time (hours)', title = 'Training time distribution of Example mouse 3')
 plt.savefig("fig_4.jpg", dpi = 1500, bbox_inches = 'tight')
 
+# Get statistics
 df_sessions_example_mouse_3.time_consistency_1 # 0.1785
 df_sessions_example_mouse_3.time_consistency_2 # 2.1538
 
 
 
 # FIGURE 5: Pairplot different time consistency variables with example mouse
+sns.set_palette(lab_colors)
 fig_5 = sns.pairplot(data = df_subjects_complete_3, kind = 'reg', plot_kws = {'line_kws':{'color':'lightskyblue'}}, 
              hue = 'Example mouse', hue_order = ['All other mice', 'Example mouse 1', 'Example mouse 2', 'Example mouse 3', 'Example mouse 4'], diag_kind = 'hist', palette = 'colorblind', corner = True)
 sns.move_legend(fig_5, 'upper right', bbox_to_anchor = (.7, 0.9))
@@ -434,6 +439,7 @@ plt.savefig('fig_6b.jpg', dpi = 1500, bbox_inches = 'tight')
 
 # FIGURE 8: General performance
 sns.set_theme(style = 'darkgrid')
+sns.set_palette('colorblind')
 fig_8 = sns.lineplot(data = df_sessions_complete, x = 'session_number', y = 'Percentage correct', palette = 'colorblind') 
 fig_8.set(xlabel = 'Session number', ylabel = 'Percentage correct', title = 'Performance across all labs and all mice')
 plt.savefig('fig_8.jpg', dpi = 1500)
@@ -446,7 +452,7 @@ df_sessions_complete['Percentage correct 2'] = df_sessions_complete['Percentage 
 fig_9 = sns.FacetGrid(df_sessions_complete,
                     col = 'lab_name', col_wrap = 4, col_order = lab_order,
                     sharex = True, sharey = True, aspect = 1, palette = lab_colors, hue = 'lab_name', hue_order = lab_order)
-fig_9.map(sns.lineplot, 'session_number','Percentage correct', alpha = 0.3, estimator = None)
+#fig_9.map(sns.lineplot, 'session_number','Percentage correct 2', alpha = 0.3, estimator = None)
 fig_9.map(sns.lineplot, 'session_number', 'Percentage correct', alpha = 0.3, estimator = 'mean', err_style = None)
 fig_9.set_xlabels('Session number', fontsize = 10)
 fig_9.set_ylabels('Percentage correct', fontsize = 10)
@@ -747,22 +753,22 @@ df_subjects_complete.groupby(['light_cycle'])['sessions_to_eighty'].std()
 # Create mixture models for the effect of light cycle on learning speed
 md_lc_1a = Lmer('learning_speed_1 ~ light_cycle + (1|lab_name)', data = df_subjects_complete)
 mdf_lc_1a = md_lc_1a.fit()
-table_1a = md_lc_1a.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_1a = md_lc_1a.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_1a = pd.DataFrame(table_1a)
 
 md_lc_1b = Lmer('learning_speed_2 ~ light_cycle + (1|lab_name)', data = df_subjects_complete)
 mdf_lc_1b = md_lc_1b.fit()
-table_1b = md_lc_1b.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_1b = md_lc_1b.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_1b = pd.DataFrame(table_1b)
 
 md_lc_1c = Lmer('sessions_to_trained ~ light_cycle + (1|lab_name)', data = df_subjects_complete)
 mdf_lc_1c = md_lc_1c.fit()
-table_1c = md_lc_1c.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_1c = md_lc_1c.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_1c = pd.DataFrame(table_1c)
 
 md_lc_1d = Lmer('sessions_to_eighty ~ light_cycle + (1|lab_name)', data = df_subjects_complete)
 mdf_lc_1d = md_lc_1d.fit()
-table_1d = md_lc_1d.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_1d = md_lc_1d.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_1d = pd.DataFrame(table_1d)
 
 
@@ -772,7 +778,7 @@ table_5 = pd.concat([df_1a, df_1b, df_1c, df_1d],
                            sort = False)
 table_5['t'] = table_5['T-stat'].astype(str) + table_5['Sig']
 table_5 = table_5.rename(columns = {'Estimate': 'Coefficient value'})
-table_5 = table_5[['Coefficient value', 't']]
+table_5 = table_5[['Coefficient value', 't', 'P-val']]
 table_5.to_csv(r'/Users/felicewulfse/Library/Mobile Documents/com~apple~CloudDocs/Documents/Universiteit/MSc Applied Cognitive Psychology/Thesis/My_repo_int_brain_lab\table_5.csv')
 
 
@@ -840,25 +846,25 @@ t_test_tc_2d = stats.ttest_ind(df_subjects_complete['sessions_to_eighty'][df_sub
 # Create mixture models
 md_tc1_1a = Lmer('learning_speed_1 ~ time_consistency_1 + (1|lab_name)', data = df_subjects_complete)
 mdf_tc1_1a = md_tc1_1a.fit()
-table_2a = md_tc1_1a.coefs[['Estimate','T-stat','Sig']].round(2)
+table_2a = md_tc1_1a.coefs[['Estimate','T-stat','Sig', 'P-val']].round(3)
 df_2a = pd.DataFrame(table_2a)
 
 
 md_tc1_1b = Lmer('learning_speed_2 ~ time_consistency_1 + (1|lab_name)', data = df_subjects_complete)
 mdf_tc1_1b = md_tc1_1b.fit()
-table_2b = md_tc1_1b.coefs[['Estimate','T-stat', 'Sig']].round(2)
-df_2b = table_2b[['Estimate','T-stat','Sig']].round(2)
+table_2b = md_tc1_1b.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
+df_2b = pd.DataFrame(table_2b)
 
 
 md_tc1_1c = Lmer('sessions_to_trained ~ time_consistency_1 + (1|lab_name)', data = df_subjects_complete)
 mdf_tc1_1c = md_tc1_1c.fit()
-table_2c = md_tc1_1c.coefs['Estimate','T-stat','Sig']].round(2)
+table_2c = md_tc1_1c.coefs[['Estimate','T-stat','Sig', 'P-val']].round(3)
 df_2c = pd.DataFrame(table_2c)
 
 
 md_tc1_1d = Lmer('sessions_to_eighty ~ time_consistency_1 + (1|lab_name)', data = df_subjects_complete)
 mdf_tc1_1d = md_tc1_1d.fit()
-table_2d = md_tc1_1d.coefs[['Estimate','T-stat','Sig']].round(2)
+table_2d = md_tc1_1d.coefs[['Estimate','T-stat','Sig', 'P-val']].round(3)
 df_2d = pd.DataFrame(table_2d)
 
 
@@ -868,31 +874,31 @@ table_8 = pd.concat([df_2a, df_2b, df_2c, df_2d],
                            sort = False)
 table_8['t'] = table_8['T-stat'].astype(str) + table_8['Sig']
 table_8 = table_8.rename(columns = {'Estimate': 'Coefficient value'})
-table_8 = table_8[['Coefficient value', 't']]
+table_8 = table_8[['Coefficient value', 't', 'P-val']]
 table_8.to_csv(r'/Users/felicewulfse/Library/Mobile Documents/com~apple~CloudDocs/Documents/Universiteit/MSc Applied Cognitive Psychology/Thesis/My_repo_int_brain_lab\table_8.csv')
 
 
 
 md_tc2_1a = Lmer('learning_speed_1 ~ time_consistency_2 + (1|lab_name)', data = df_subjects_complete)
 mdf_tc2_1a = md_tc2_1a.fit()
-table_2e = md_tc2_1a.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_2e = md_tc2_1a.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_2e = pd.DataFrame(table_2e)
 
 
 md_tc2_1b = Lmer('learning_speed_2 ~ time_consistency_2 + (1|lab_name)', data = df_subjects_complete)
 mdf_tc2_1b = md_tc2_1b.fit()
-table_2f = md_tc2_1b.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_2f = md_tc2_1b.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_2f = pd.DataFrame(table_2f)
 
 
 md_tc2_1c = Lmer('sessions_to_trained ~ time_consistency_2 + (1|lab_name)', data = df_subjects_complete)
 mdf_tc2_1c = md_tc2_1c.fit()
-table_2g = md_tc2_1c.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_2g = md_tc2_1c.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_2g = pd.DataFrame(table_2g)
 
 md_tc2_1d = Lmer('sessions_to_eighty ~ time_consistency_2 + (1|lab_name)', data = df_subjects_complete)
 mdf_tc2_1d = md_tc2_1d.fit()
-table_2h = md_tc2_1d.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_2h = md_tc2_1d.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_2h = pd.DataFrame(table_2h)
 
 
@@ -902,7 +908,7 @@ table_9 = pd.concat([df_2e, df_2f, df_2g, df_2h],           # Rbind DataFrames
                            sort = False)
 table_9['t'] = table_9['T-stat'].astype(str) + table_9['Sig']
 table_9 = table_9.rename(columns = {'Estimate': 'Coefficient value'})
-table_9 = table_9[['Coefficient value', 't']]
+table_9 = table_9[['Coefficient value', 't', 'P-val']]
 table_9.to_csv(r'/Users/felicewulfse/Library/Mobile Documents/com~apple~CloudDocs/Documents/Universiteit/MSc Applied Cognitive Psychology/Thesis/My_repo_int_brain_lab\table_9.csv')
 
 
@@ -910,25 +916,25 @@ table_9.to_csv(r'/Users/felicewulfse/Library/Mobile Documents/com~apple~CloudDoc
 # Testing the interaction between light cycles and training time consistency
 md_2_1a = Lmer('learning_speed_1 ~ light_cycle + time_consistency_1 + (light_cycle * time_consistency_1) + (1|lab_name)', data = df_subjects_complete)
 mdf_2_1a = md_2_1a.fit()
-table_3a = md_2_1a.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_3a = md_2_1a.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_3a = pd.DataFrame(table_3a)
 
 
 md_2_1b = Lmer('learning_speed_2 ~ light_cycle + time_consistency_1 + (light_cycle * time_consistency_1) + (1|lab_name)', data = df_subjects_complete)
 mdf_2_1b = md_2_1b.fit()
-table_3b = md_2_1b.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_3b = md_2_1b.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_3b = pd.DataFrame(table_3b)
 
 
 md_2_1c = Lmer('sessions_to_trained ~ light_cycle + time_consistency_1 + (light_cycle * time_consistency_1) + (1|lab_name)', data = df_subjects_complete)
 mdf_2_1c = md_2_1c.fit()
-table_3c = md_2_1c.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_3c = md_2_1c.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_3c = pd.DataFrame(table_3c)
 
 
 md_2_1d = Lmer('sessions_to_eighty ~ light_cycle + time_consistency_1 + (light_cycle * time_consistency_1) + (1|lab_name)', data = df_subjects_complete)
 mdf_2_1d = md_2_1d.fit()
-table_3d = md_2_1d.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_3d = md_2_1d.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_3d = pd.DataFrame(table_3d)
 
 
@@ -938,31 +944,31 @@ table_10 = pd.concat([df_3a, df_3b, df_3c, df_3d],           # Rbind DataFrames
                            sort = False)
 table_10["t"] = table_10['T-stat'].astype(str) + table_10['Sig']
 table_10 = table_10.rename(columns={'Estimate': 'Coefficient value'})
-table_10 = table_10[['Coefficient value', 't']]
+table_10 = table_10[['Coefficient value', 't', 'P-val']]
 table_10.to_csv(r'/Users/felicewulfse/Library/Mobile Documents/com~apple~CloudDocs/Documents/Universiteit/MSc Applied Cognitive Psychology/Thesis/My_repo_int_brain_lab\table_10.csv')
 
 
 
 md_2_2a = Lmer('learning_speed_1 ~ light_cycle + time_consistency_2 + (light_cycle * time_consistency_2) + (1|lab_name)', data = df_subjects_complete)
 mdf_2_2a = md_2_2a.fit()
-table_3e = md_2_2a.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_3e = md_2_2a.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_3e = pd.DataFrame(table_3e)
 
 md_2_2b = Lmer('learning_speed_2 ~ light_cycle + time_consistency_2 + (light_cycle * time_consistency_2) + (1|lab_name)', data = df_subjects_complete)
 mdf_2_2b = md_2_2b.fit()
-table_3f = md_2_2b.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_3f = md_2_2b.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_3f = pd.DataFrame(table_3f)
 
 
 md_2_2c = Lmer('sessions_to_trained ~ light_cycle + time_consistency_2 + (light_cycle * time_consistency_2) + (1|lab_name)', data = df_subjects_complete)
 mdf_2_2c = md_2_2c.fit()
-table_3g = md_2_2c.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_3g = md_2_2c.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_3g = pd.DataFrame(table_3g)
 
 
 md_2_2d = Lmer('sessions_to_eighty ~ light_cycle + time_consistency_2 + (light_cycle * time_consistency_2) + (1|lab_name)', data = df_subjects_complete)
 mdf_2_2d = md_2_2d.fit()
-table_3h = md_2_2d.coefs[['Estimate','T-stat', 'Sig']].round(2)
+table_3h = md_2_2d.coefs[['Estimate','T-stat', 'Sig', 'P-val']].round(3)
 df_3h = pd.DataFrame(table_3h)
 
 
@@ -972,7 +978,7 @@ table_11 = pd.concat([df_3e, df_3f, df_3g, df_3h],           # Rbind DataFrames
                            sort = False)
 table_11["t"] = table_11['T-stat'].astype(str) + table_11['Sig']
 table_11 = table_11.rename(columns = {'Estimate': 'Coefficient value'})
-table_11 = table_11[['Coefficient value', 't']]
+table_11 = table_11[['Coefficient value', 't', 'P-val']]
 table_11.to_csv(r'/Users/felicewulfse/Library/Mobile Documents/com~apple~CloudDocs/Documents/Universiteit/MSc Applied Cognitive Psychology/Thesis/My_repo_int_brain_lab\table_11.csv')
 
 
